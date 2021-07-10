@@ -73,11 +73,11 @@ public class UsuarioServiceTest {
 	public void deveLancarErroQuandoASenhaNaoForAMesma() {
 		String senha = "gol bola";
 		Usuario usuario = Usuario
-		.builder()
-		.idUsuario(1L)
-		.emailUsuario("north@exe.bol")
-		.senhaUsuario(senha)
-		.build();
+							.builder()
+							.idUsuario(1L)
+							.emailUsuario("north@exe.bol")
+							.senhaUsuario(senha)
+							.build();
 		Mockito.when(usuarioRepository.findByEmailUsuario(Mockito.anyString())).thenReturn(Optional.of(usuario));
 		
 		Throwable exception = Assertions.catchThrowable(() -> usuarioService.autenticar("north@exe.bol", "gol quadrado"));
