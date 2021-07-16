@@ -3,6 +3,9 @@ package br.com.minhasfinancas.service;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Service;
 import br.com.minhasfinancas.exception.RegraNegocioException;
 import br.com.minhasfinancas.model.Lancamento;
 import br.com.minhasfinancas.model.enums.StatusLancamento;
+import br.com.minhasfinancas.model.enums.TipoLancamento;
 import br.com.minhasfinancas.repository.LancamentoRepository;
 
 @Service
@@ -25,6 +29,10 @@ public class LancamentoService {
 		validarLancamento(lancamento);
 		lancamento.setStatusLancamento(StatusLancamento.PENDENTE);
 		return lancamentoRepository.save(lancamento);
+	}
+	
+	public Optional<Lancamento> buscarPorId(Long idLancamento){
+		return lancamentoRepository.findById(idLancamento);
 	}
 
 	public Lancamento atualizarLancamento(Lancamento lancamento) {
@@ -49,6 +57,22 @@ public class LancamentoService {
 		lancamento.setStatusLancamento(statusLancamento);
 		atualizarLancamento(lancamento);
 	}
+	
+	
+	public BigDecimal obterSaldoPorUsuario(Long idUsuario) {
+		BigDecimal receitas = lancamentoRepository.buscarSaldoPorLancamentoEUsuario(idUsuario, TipoLancamento.RECEITA);
+		BigDecimal despesas = lancamentoRepository.buscarSaldoPorLancamentoEUsuario(idUsuario, TipoLancamento.DESPESA);
+		
+		if(receitas == null) {
+			receitas = BigDecimal.ZERO;
+		}
+		
+		if(despesas == null) {
+			despesas = BigDecimal.ZERO;
+		}
+		
+		return receitas.subtract(despesas);
+	}
 
 	public void validarLancamento(Lancamento lancamento) {
 		if(lancamento.getDescricao() == null || lancamento.getDescricao().trim().equals("")) {
@@ -64,7 +88,7 @@ public class LancamentoService {
 
 		}
 		
-		if(lancamento.getUsuario() == null || lancamento.getIdLancamento() == null) {
+		if(lancamento.getUsuario() == null) {
 			throw new RegraNegocioException("Informe um usuário!");
 		}
 		

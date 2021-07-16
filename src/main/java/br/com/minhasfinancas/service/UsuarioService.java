@@ -41,4 +41,8 @@ public class UsuarioService {
 			throw new RegraNegocioException("Este email já está cadastrado!");
 		}
 	}
+	
+	public Optional<Usuario> buscarPorId(Long idUsuario) {
+		return usuarioRepository.findById(idUsuario);
+	}
 }
