@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Optional;
 
-import org.assertj.core.api.Assertions;
+import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -57,16 +57,16 @@ public class UsuarioServiceTest {
 		
 		Usuario result =  usuarioService.autenticar(email, senha);
 		
-		Assertions.assertThat(result).isNotNull();
+		assertThat(result).isNotNull();
 	}
 	
 	@Test
 	public void deveLancarErroAoNaoEncontrarUsuarioComEmailInformado() {
 		Mockito.when(usuarioRepository.findByEmailUsuario(Mockito.anyString())).thenReturn(Optional.empty());
 		
-		Throwable exception = Assertions.catchThrowable(() -> usuarioService.autenticar("north@exe.bol", "gol quadrado"));
+		Throwable exception = catchThrowable(() -> usuarioService.autenticar("north@exe.bol", "gol quadrado"));
 		
-		Assertions.assertThat(exception).isInstanceOf(ErroAutenticacaoException.class).hasMessage("Usuário não encontrado! Verifique o email!");
+		assertThat(exception).isInstanceOf(ErroAutenticacaoException.class).hasMessage("Usuário não encontrado! Verifique o email!");
 	}
 	
 	@Test
@@ -80,9 +80,9 @@ public class UsuarioServiceTest {
 							.build();
 		Mockito.when(usuarioRepository.findByEmailUsuario(Mockito.anyString())).thenReturn(Optional.of(usuario));
 		
-		Throwable exception = Assertions.catchThrowable(() -> usuarioService.autenticar("north@exe.bol", "gol quadrado"));
+		Throwable exception = catchThrowable(() -> usuarioService.autenticar("north@exe.bol", "gol quadrado"));
 		
-		Assertions.assertThat(exception).isInstanceOf(ErroAutenticacaoException.class).hasMessage("Senha incorreta!!");
+		assertThat(exception).isInstanceOf(ErroAutenticacaoException.class).hasMessage("Senha incorreta!!");
 	}
 	
 	@Test
@@ -99,11 +99,11 @@ public class UsuarioServiceTest {
 		
 		Usuario usuarioSalvo = usuarioService.salvarUsuario(new Usuario());
 		
-		Assertions.assertThat(usuarioSalvo).isNotNull();
-		Assertions.assertThat(usuarioSalvo.getIdUsuario()).isEqualTo(1L);
-		Assertions.assertThat(usuarioSalvo.getNomeUsuario()).isEqualTo("north.exe");
-		Assertions.assertThat(usuarioSalvo.getEmailUsuario()).isEqualTo("north@exe.bol");
-		Assertions.assertThat(usuarioSalvo.getSenhaUsuario()).isEqualTo("gol quadrado");
+		assertThat(usuarioSalvo).isNotNull();
+		assertThat(usuarioSalvo.getIdUsuario()).isEqualTo(1L);
+		assertThat(usuarioSalvo.getNomeUsuario()).isEqualTo("north.exe");
+		assertThat(usuarioSalvo.getEmailUsuario()).isEqualTo("north@exe.bol");
+		assertThat(usuarioSalvo.getSenhaUsuario()).isEqualTo("gol quadrado");
 		
 	}
 	
