@@ -73,7 +73,7 @@ public class LancamentoRepositoryTest {
 		assertThat(lancamentoFiltrado.isPresent()).isTrue();
 	}
 
-	public Lancamento criarLancamento() {
+	public static Lancamento criarLancamento() {
 		return Lancamento.builder()
 				.descricao("Lada Laika LS3 500hp")
 				.anoLancamento(2021)
