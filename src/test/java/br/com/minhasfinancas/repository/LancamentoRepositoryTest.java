@@ -81,6 +81,7 @@ public class LancamentoRepositoryTest {
 				.statusLancamento(StatusLancamento.PENDENTE)
 				.tipoLancamento(TipoLancamento.RECEITA)
 				.dataCadastro(LocalDate.now()).build();
+			
 	}
 	
 	public Lancamento criarEPersistirUmLancamento() {

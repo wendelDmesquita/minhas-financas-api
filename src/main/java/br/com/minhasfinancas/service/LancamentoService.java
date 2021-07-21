@@ -86,7 +86,7 @@ public class LancamentoService {
 
 		}
 		
-		if(lancamento.getUsuario() == null) {
+		if(lancamento.getUsuario() == null || lancamento.getUsuario().getIdUsuario() == null) {
 			throw new RegraNegocioException("Informe um usuário!");
 		}
 		
